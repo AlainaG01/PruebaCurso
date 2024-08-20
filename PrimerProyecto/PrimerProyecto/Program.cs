@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PrimerProyecto.Components;
 using PrimerProyecto.DAL;
+using PrimerProyecto.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +13,8 @@ builder.Services.AddRazorComponents()
 var ConStr = builder.Configuration.GetConnectionString("ConStr");
 builder.Services.AddDbContext<Contexto>(o => o.UseSqlite(ConStr));
 
-
+//Inyeccion del servicio
+builder.Services.AddScoped<EstudianteService>();
 
 
 var app = builder.Build();
