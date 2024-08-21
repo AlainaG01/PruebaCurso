@@ -40,7 +40,19 @@
                             <td>@estudiante.EstudianteId</td>
                             <td>@estudiante.Nombre</td>
                             <td>@estudiante.Matricula</td>
-                            <td>@estudiante.Carrera</td>
+                            <td>@estudiante.Carrera</td
+
+                            <td><button type="button" class="btn btn-outline-primary bi bi-eye"
+                                @onclick="()=> PantallaEditar(estudiante.EstudianteId)"></button>
+                            </td>
+
+                            <td><button type="button" class="btn btn-outline-warning bi bi-pencil"
+                                @onclick="()=> PantallaEditar(estudiante.EstudianteId)"></button>
+                            </td>
+
+                            <td><button type="button" class="btn btn-outline-danger bi bi-trash"
+                                @onclick="()=> PantallaEliminar(estudiante.EstudianteId)"></button>
+                            </td>
                         </tr>
                     }
                 </tbody>
@@ -64,4 +76,19 @@
         ListaEstudiante = await estudiantesService.Listar(e => e.EstudianteId > 0);
     }
     public void PantallaCrear() => navigationManager.NavigateTo("/Estudiante/Create");
+
+    public void PantallaObservar(int id)
+    {
+        navigationManager.NavigateTo($"/Estudiante/Create/{id}");
+    }
+
+    public void PantallaEditar(int id)
+    {
+        navigationManager.NavigateTo($"/Estudiante/Editar/{id}");
+    }
+
+    public void PantallaEliminar(int id)
+    {
+        navigationManager.NavigateTo($"/Estudiante/Editar/{id}");
+    }
 }
