@@ -1,0 +1,77 @@
+﻿@page "/Estudiante/Create"
+
+@inject EstudianteService estudianteService
+@inject NavigationManager navigationManager
+@rendermode InteractiveServer
+
+<PageTitle>Create</PageTitle>
+<EditForm Model="Estudiante" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+    @*Formulario*@
+    <div class="container">
+        <div class="shadow-lg">
+            @*Header*@
+            <div class="card-header">
+                <h3>Crear Estudiante</h3>
+            </div>
+            @*body*@
+            <div class="card-body">
+                <div class="row">
+                    @*Id*@
+                    <div class="col-1">
+                        <label class="form-label"><strong>EstudianteID</strong></label>
+                        <InputNumber class="form-control" @bind-Value="Estudiante.EstudianteId" readonly></InputNumber>
+                    </div>
+                    @*Nombre*@
+                    <div class="col-3 ms-5">
+                        <label class="form-label"><strong>Nombre</strong></label>
+                        <InputText class="form-control" @bind-Value="Estudiante.Nombre"></InputText>
+                        <ValidationMessage For="(()=> Estudiante.Nombre)"/>
+                    </div>
+                    @*Matricula*@
+                    <div class="col-3 ms-5">
+                        <label class="form-label"><strong>Matricula</strong></label>
+                        <InputNumber class="form-control" @bind-Value="Estudiante.Matricula"></InputNumber>
+                    </div>
+                    @*Carrera*@
+                    <div class="col-3 ms-5">
+                        <label class="form-label"><strong>Carrera</strong></label>
+                        <InputText class="form-control" @bind-Value="Estudiante.Carrera"></InputText>
+                        <ValidationMessage For="(()=> Estudiante.Carrera)" />
+                    </div>
+                </div>
+            </div>
+            <div>
+                @*Footer*@
+                <div class="card-footer">
+                    <button type="button" class="btn btn-primary" @onclick="Volver">Volver</button>
+                    <button type="button" class="btn btn-success">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    public Estudiantes Estudiante { get; set; } = new Estudiantes();
+
+    public string Mensaje { get; set; } = string.Empty;
+
+    public void Volver()
+    {
+        navigationManager.NavigateTo("/Estudiante/Index");
+    }
+
+    private async Task Guardar()
+    {
+        var crear = await estudianteService.Guardar(Estudiante);
+        if (crear)
+        {
+            Mensaje = "Se ha creado correctamente el estudiante";
+        }
+        else
+        {
+            Mensaje = "No se ha creado correctamente";
+        }
+    }
+}
