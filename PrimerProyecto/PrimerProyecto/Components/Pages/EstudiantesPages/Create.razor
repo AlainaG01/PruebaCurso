@@ -31,7 +31,7 @@
                     @*Matricula*@
                     <div class="col-3 ms-5">
                         <label class="form-label"><strong>Matricula</strong></label>
-                        <InputNumber class="form-control" @bind-Value="Estudiante.Matricula"></InputNumber>
+                        <InputText class="form-control" @bind-Value="Estudiante.Matricula"></InputText>
                     </div>
                     @*Carrera*@
                     <div class="col-3 ms-5">
@@ -45,12 +45,13 @@
                 @*Footer*@
                 <div class="card-footer">
                     <button type="button" class="btn btn-primary" @onclick="Volver">Volver</button>
-                    <button type="button" class="btn btn-success">Guardar</button>
+                    <button type="button" class="btn btn-success" @onclick="Guardar">Guardar</button>
                 </div>
             </div>
         </div>
     </div>
 </EditForm>
+@Mesaje
 
 @code {
     public Estudiantes Estudiante { get; set; } = new Estudiantes();
@@ -64,6 +65,12 @@
 
     private async Task Guardar()
     {
+        if(await Validar())
+        {
+            Mensaje = "Ya existe un estudiante con este nombre o esta matricula";
+            return;
+        }
+
         var crear = await estudianteService.Guardar(Estudiante);
         if (crear)
         {
@@ -73,5 +80,11 @@
         {
             Mensaje = "No se ha creado correctamente";
         }
+    }
+
+    private async Task<bool> Validar()
+    {
+        var existe = await estudianteService.ExisteEstudiante(Estudiante.EstudianteId, Estudiante.Nombre, Estudiante.Matricula);
+        return existe;
     }
 }
