@@ -12,7 +12,9 @@ public class Estudiantes
     public string? Nombre { get; set; }
 
     [Required(ErrorMessage = "Matricula obligatoria")]
-    public int? Matricula { get; set; }
+    [StringLength(9, ErrorMessage = "La matricula solo debe tener 8 digitos")]
+    [RegularExpression(@"^\d{4}-\d{4}", ErrorMessage ="La matricula debe tener este formato xxxx-xxxx")]
+    public string? Matricula { get; set; }
 
     [Required(ErrorMessage = "Carrera obligatorio")]
     [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Solo se permiten letras")]
